@@ -1,0 +1,452 @@
+[
+  {
+    "algorithm": "minimax",
+    "depth": 2,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 12,
+    "timeMs": "0.668"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 2,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "102.50",
+    "nodesEvaluated": 12,
+    "timeMs": "0.045"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 2,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "potion",
+    "bestScore": "95.00",
+    "nodesEvaluated": 12,
+    "timeMs": "0.028"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 4,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 111,
+    "timeMs": "0.138"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 4,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "127.50",
+    "nodesEvaluated": 111,
+    "timeMs": "0.100"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 4,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "potion",
+    "bestScore": "92.50",
+    "nodesEvaluated": 111,
+    "timeMs": "0.068"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 6,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 839,
+    "timeMs": "1.832"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 6,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "147.50",
+    "nodesEvaluated": 839,
+    "timeMs": "0.367"
+  },
+  {
+    "algorithm": "minimax",
+    "depth": 6,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "defend",
+    "bestScore": "72.50",
+    "nodesEvaluated": 839,
+    "timeMs": "0.718"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 8,
+    "timeMs": "0.151"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "balanced",
+    "ordering": "optimal",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 8,
+    "timeMs": "0.167"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "balanced",
+    "ordering": "reverse",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 12,
+    "timeMs": "0.148"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "102.50",
+    "nodesEvaluated": 12,
+    "timeMs": "0.007"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "aggressive",
+    "ordering": "optimal",
+    "bestAction": "attack",
+    "bestScore": "102.50",
+    "nodesEvaluated": 10,
+    "timeMs": "0.006"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "aggressive",
+    "ordering": "reverse",
+    "bestAction": "attack",
+    "bestScore": "102.50",
+    "nodesEvaluated": 12,
+    "timeMs": "0.006"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "potion",
+    "bestScore": "95.00",
+    "nodesEvaluated": 12,
+    "timeMs": "0.005"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "defensive",
+    "ordering": "optimal",
+    "bestAction": "potion",
+    "bestScore": "95.00",
+    "nodesEvaluated": 10,
+    "timeMs": "0.005"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 2,
+    "evalType": "defensive",
+    "ordering": "reverse",
+    "bestAction": "potion",
+    "bestScore": "95.00",
+    "nodesEvaluated": 12,
+    "timeMs": "0.019"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 35,
+    "timeMs": "0.015"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "balanced",
+    "ordering": "optimal",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 35,
+    "timeMs": "0.017"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "balanced",
+    "ordering": "reverse",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 106,
+    "timeMs": "0.045"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "127.50",
+    "nodesEvaluated": 51,
+    "timeMs": "0.015"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "aggressive",
+    "ordering": "optimal",
+    "bestAction": "attack",
+    "bestScore": "127.50",
+    "nodesEvaluated": 46,
+    "timeMs": "0.020"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "aggressive",
+    "ordering": "reverse",
+    "bestAction": "attack",
+    "bestScore": "127.50",
+    "nodesEvaluated": 104,
+    "timeMs": "0.044"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "potion",
+    "bestScore": "92.50",
+    "nodesEvaluated": 68,
+    "timeMs": "0.020"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "defensive",
+    "ordering": "optimal",
+    "bestAction": "potion",
+    "bestScore": "92.50",
+    "nodesEvaluated": 48,
+    "timeMs": "0.026"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 4,
+    "evalType": "defensive",
+    "ordering": "reverse",
+    "bestAction": "potion",
+    "bestScore": "92.50",
+    "nodesEvaluated": 107,
+    "timeMs": "0.052"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 113,
+    "timeMs": "0.035"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "balanced",
+    "ordering": "optimal",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 113,
+    "timeMs": "0.145"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "balanced",
+    "ordering": "reverse",
+    "bestAction": "attack",
+    "bestScore": "-7.50",
+    "nodesEvaluated": 649,
+    "timeMs": "0.569"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "147.50",
+    "nodesEvaluated": 186,
+    "timeMs": "0.059"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "aggressive",
+    "ordering": "optimal",
+    "bestAction": "attack",
+    "bestScore": "147.50",
+    "nodesEvaluated": 175,
+    "timeMs": "0.079"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "aggressive",
+    "ordering": "reverse",
+    "bestAction": "attack",
+    "bestScore": "147.50",
+    "nodesEvaluated": 598,
+    "timeMs": "0.408"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "defend",
+    "bestScore": "72.50",
+    "nodesEvaluated": 240,
+    "timeMs": "0.101"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "defensive",
+    "ordering": "optimal",
+    "bestAction": "potion",
+    "bestScore": "72.50",
+    "nodesEvaluated": 170,
+    "timeMs": "0.094"
+  },
+  {
+    "algorithm": "alphabeta",
+    "depth": 6,
+    "evalType": "defensive",
+    "ordering": "reverse",
+    "bestAction": "defend",
+    "bestScore": "72.50",
+    "nodesEvaluated": 708,
+    "timeMs": "0.250"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 2,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "8.00",
+    "nodesEvaluated": 16,
+    "timeMs": "0.179"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 2,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "142.50",
+    "nodesEvaluated": 16,
+    "timeMs": "0.022"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 2,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "potion",
+    "bestScore": "126.67",
+    "nodesEvaluated": 16,
+    "timeMs": "0.008"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 4,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "18.83",
+    "nodesEvaluated": 148,
+    "timeMs": "0.193"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 4,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "162.50",
+    "nodesEvaluated": 148,
+    "timeMs": "0.078"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 4,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "potion",
+    "bestScore": "131.94",
+    "nodesEvaluated": 148,
+    "timeMs": "0.064"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 6,
+    "evalType": "balanced",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "28.64",
+    "nodesEvaluated": 1128,
+    "timeMs": "0.814"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 6,
+    "evalType": "aggressive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "184.44",
+    "nodesEvaluated": 1128,
+    "timeMs": "0.520"
+  },
+  {
+    "algorithm": "expectimax",
+    "depth": 6,
+    "evalType": "defensive",
+    "ordering": "default",
+    "bestAction": "attack",
+    "bestScore": "137.42",
+    "nodesEvaluated": 1128,
+    "timeMs": "0.431"
+  }
+]

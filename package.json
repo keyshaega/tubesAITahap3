@@ -1,0 +1,12 @@
+{
+  "name": "npc-search-sederhana",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Game grid browser untuk belajar UCS dan A* tanpa library",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "test": "node --test tests/*.test.js",
+    "experiment": "node scripts/experiment.js",
+    "build": "node scripts/build.js"
+  }
+}

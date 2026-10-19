@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kejar Player — UCS &amp; A*</title>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">PRAKTIKUM KECERDASAN BUATAN · PENCARIAN JALUR</p>
+      <h1>Kejar Player <span>UCS &amp; A*</span></h1>
+      <p>Gerakkan player. Lihat bagaimana NPC mencari jalan melewati halangan.</p>
+    </header>
+
+    <section class="game" aria-label="Permainan dan kontrol">
+      <div class="board">
+        <div class="board-heading"><h2 id="map-title">Desa</h2><span class="badge">4 arah · biaya langkah 1</span></div>
+        <canvas id="world" width="800" height="560" tabindex="0" aria-label="Peta permainan. Gunakan tombol panah atau WASD untuk menggerakkan player."></canvas>
+        <div class="legend">
+          <span><i class="dot npc"></i>NPC</span><span><i class="dot player"></i>Player</span>
+          <span><i class="swatch expanded"></i>Di-expand</span><span><i class="swatch frontier"></i>Frontier</span><span><i class="line"></i>Jalur</span>
+        </div>
+        <p class="hint">Gerak: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / tombol panah. Klik tanah atau jembatan untuk memindahkan player.</p>
+        <div class="mobile-moves" aria-label="Tombol gerak player"><button data-move="0,-1" aria-label="Gerak ke atas">↑</button><button data-move="-1,0" aria-label="Gerak ke kiri">←</button><button data-move="0,1" aria-label="Gerak ke bawah">↓</button><button data-move="1,0" aria-label="Gerak ke kanan">→</button></div>
+      </div>
+
+      <aside class="controls">
+        <h2>Pengaturan pencarian</h2>
+        <label for="map-select">Peta</label><select id="map-select"></select>
+        <p id="map-description" class="small"></p>
+        <label for="heuristic-select">Algoritme / heuristik</label><select id="heuristic-select"></select>
+        <div class="formula" id="formula"></div>
+        <button id="play" class="primary">▶ Mulai mengejar</button>
+        <div class="button-row"><button id="step">Satu langkah NPC</button><button id="reset">Reset</button></div>
+        <label class="check"><input type="checkbox" id="overlay" checked> Tampilkan debug overlay</label>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+        <div class="metrics">
+          <div><strong id="expanded-count">0</strong><span>Node di-expand</span></div>
+          <div><strong id="path-cost">0</strong><span>Biaya jalur</span></div>
+          <div><strong id="frontier-count">0</strong><span>Sisa frontier</span></div>
+          <div><strong id="search-time">0</strong><span>Waktu (ms)</span></div>
+        </div>
+        <p class="small">Metrik dan overlay adalah hasil <b>pencarian terakhir</b> dari posisi NPC ke player. Jalur dihitung ulang saat posisi atau algoritme berubah.</p>
+        <p class="terrain-key small">■ Tembok &nbsp; ⌂ Rumah &nbsp; ♣ Pohon &nbsp; ≋ Sungai<br>Semua menghalangi. Jembatan boleh dilewati.</p>
+      </aside>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">AMATI PROSESNYA</p><h2>Jejak pencarian terakhir</h2></div><span class="small">8 node pertama · koordinat (x, y), mulai dari 0</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Urutan</th><th>Node</th><th>g: biaya sejauh ini</th><th>h: estimasi sisa</th><th>f = g + h</th></tr></thead><tbody id="trace"></tbody></table></div>
+      <p class="small">Node di-expand dihitung ketika dikeluarkan dari frontier dan diproses, termasuk goal. Entri lama yang dilewati tidak dihitung. Frontier adalah node yang masih menunggu saat pencarian berhenti.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">BANDINGKAN SECARA ADIL</p><h2>Eksperimen heuristik</h2></div><div class="button-row"><button id="run-experiments" class="primary">Jalankan eksperimen</button><button id="export" disabled>Unduh CSV</button></div></div>
+      <p>Lima peta tetap × empat algoritme. Setiap algoritme memakai posisi awal, goal, urutan tetangga, dan aturan prioritas seri yang sama. Hasil ini terpisah dari permainan di atas.</p>
+      <p id="experiment-status" class="small" role="status">Klik tombol untuk membandingkan jumlah ekspansi dan biaya jalur.</p>
+      <div class="table-wrap"><table><thead><tr><th>Algoritme</th><th>Jalur ditemukan</th><th>Rerata node</th><th>Rerata ms</th><th>Biaya / UCS</th></tr></thead><tbody id="experiment-summary"><tr><td colspan="5">Belum dijalankan.</td></tr></tbody></table></div>
+      <details><summary>Hasil setiap peta</summary><div class="table-wrap"><table><thead><tr><th>Peta</th><th>Algoritme</th><th>Node di-expand</th><th>Biaya</th><th>Waktu (ms)</th></tr></thead><tbody id="experiment-details"></tbody></table></div></details>
+      <p id="experiment-conclusion" class="small">Setiap kasus memakai satu pemanasan dan lima pengukuran; waktu per kasus adalah mediannya. Kolom rerata ms merata-ratakan median dari lima peta. Gunakan node di-expand sebagai ukuran utama karena waktu pada grid kecil mudah dipengaruhi browser. Rasio biaya hanya dihitung untuk jalur yang ditemukan.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">TAHAP 2 · ADVERSARIAL SEARCH</p><h2>Eksperimen Minimax, Alpha-Beta &amp; Expectimax</h2></div><div class="button-row"><button id="run-adv" class="primary">Jalankan eksperimen</button><button id="export-adv" disabled>Unduh CSV</button></div></div>
+      <p>Lima state battle tetap (giliran NPC) × tiga algoritme × depth 2, 4, 6 × tiga urutan action. Ukuran utama adalah jumlah node yang dievaluasi. Evaluation function dibandingkan lewat aksi pilihan dan duel simulasi melawan player acak (seed tetap).</p>
+      <p id="adv-status" class="small" role="status">Klik tombol untuk menjalankan eksperimen adversarial.</p>
+      <h3>Efisiensi per algoritme dan depth (urutan Optimal)</h3>
+      <div class="table-wrap"><table><thead><tr><th>Algoritme</th><th>Depth</th><th>Rerata node</th><th>Hemat vs Minimax</th><th>Keputusan sama dgn Minimax</th></tr></thead><tbody id="adv-summary"><tr><td colspan="5">Belum dijalankan.</td></tr></tbody></table></div>
+      <h3>Pengaruh urutan action pada Alpha-Beta</h3>
+      <div class="table-wrap"><table><thead><tr><th>Depth</th><th>Urutan</th><th>Rerata node</th><th>Hemat vs Minimax</th></tr></thead><tbody id="adv-order"><tr><td colspan="4">Belum dijalankan.</td></tr></tbody></table></div>
+      <h3>Evaluation function (Alpha-Beta, depth 4)</h3>
+      <div class="table-wrap"><table><thead><tr><th>Evaluasi</th><th>NPC menang</th><th>NPC kalah</th><th>Seri</th><th>Rerata ronde</th></tr></thead><tbody id="adv-eval"><tr><td colspan="5">Belum dijalankan.</td></tr></tbody></table></div>
+      <details><summary>Aksi pilihan NPC per evaluation function</summary><div class="table-wrap"><table><thead><tr><th>Evaluasi</th><th>State</th><th>Aksi</th><th>Skor</th><th>Node</th></tr></thead><tbody id="adv-decisions"></tbody></table></div></details>
+      <details><summary>Hasil setiap state, algoritme, depth, dan urutan</summary><div class="table-wrap"><table><thead><tr><th>State</th><th>Algoritme</th><th>Depth</th><th>Urutan</th><th>Node</th><th>Aksi</th><th>Skor</th></tr></thead><tbody id="adv-details"></tbody></table></div></details>
+      <p class="small">Alpha-Beta memangkas cabang saat α ≥ β sehingga keputusannya sama dengan Minimax, tetapi node lebih sedikit. Expectimax memakai peluang critical hit 20% (×1.5 damage) sehingga skornya berbeda.</p>
+    </section>
+
+    <section class="panel explanation">
+      <div><p class="eyebrow">PAHAMI ALGORITMENYA</p><h2>Dari state ke jalur</h2>
+        <p><b>State</b> adalah posisi NPC (x, y). <b>Action</b>: atas, bawah, kiri, kanan ke sel yang dapat dilewati. <b>Goal test</b>: posisi NPC sama dengan player.</p>
+        <p>A* memilih node dengan <b>f(n) = g(n) + h(n)</b> terkecil. <b>g</b> adalah biaya dari start; <b>h</b> memperkirakan biaya menuju goal. UCS menjalankan algoritme yang sama dengan <b>h = 0</b>.</p>
+        <p><code>gScore</code> menyimpan biaya terbaik ke setiap posisi. Jika ditemukan jalur lebih murah, biaya dan <code>cameFrom</code> diperbarui. Jadi, kita tidak cukup memakai <code>visited</code> boolean. Jalur akhir dilacak mundur melalui <code>cameFrom</code>.</p>
+      </div>
+
+      <div><h3>Inti loop pencarian</h3><pre>frontier = [start]; gScore[start] = 0
+        selama frontier tidak kosong:
+          ambil node dengan f terkecil
+          lewati entri yang g-nya sudah usang
+          catat node sebagai di-expand
+          jika node adalah goal: susun jalur
+          untuk setiap tetangga yang valid:
+            gBaru = g[node] + 1
+            jika gBaru &lt; gScore[tetangga]:
+              perbarui gScore dan cameFrom
+              masukkan tetangga, f = gBaru + h</pre>
+                <p class="small">Jika f sama, node yang masuk lebih dahulu dipilih (FIFO). Pencarian berhenti saat goal dikeluarkan, bukan saat pertama kali dimasukkan ke frontier.</p>
+              </div>
+              <div class="heuristic-note"><h3>Heuristik mana yang tepat?</h3><p>Untuk gerak 4 arah dan biaya 1, <b>Manhattan: |dx| + |dy|</b> cocok karena menghitung langkah minimum tanpa halangan. Euclidean: √(dx² + dy²) dan Chebyshev: max(|dx|, |dy|) juga tidak melebihi biaya sebenarnya, tetapi estimasinya lebih rendah. Ketiganya admissible dan konsisten pada aturan ini, sehingga tetap optimal. Halangan hanya bisa menambah jarak. Hasil ekspansi tetap bergantung pada peta dan pemecahan nilai f yang seri; bandingkan hasil eksperimennya.</p></div>
+            </section>
+            <footer>Kejar Player · JavaScript sederhana, tanpa library · UCS dan A* pada grid 2D</footer>
+          </main>
+          <!-- Modal Mode Duel / Battle Turn-Based (Tubes Tahap 2) -->
+          <div id="battle-container" class="battle-modal" style="display: none;">
+            <div class="battle-box">
+              <h2>⚔️ Turn-Based Battle Mode</h2>
+              
+              <div class="status-bars">
+                <div class="character-card">
+                  <h3>🧙 Player</h3>
+                  <div class="hp-bar-bg"><div id="player-hp-bar" class="hp-bar-fill"></div></div>
+                  <p>HP: <span id="player-hp-val">100</span>/100 | Potions: <span id="player-potions-val">2</span> <span id="player-def"></span></p>
+                </div>
+                
+                <div class="character-card">
+                  <h3>👹 NPC (AI)</h3>
+                  <div class="hp-bar-bg"><div id="npc-hp-bar" class="hp-bar-fill"></div></div>
+                  <p>HP: <span id="npc-hp-val">100</span>/100 | Potions: <span id="npc-potions-val">2</span> <span id="npc-def"></span></p>
+                </div>
+              </div>
+
+              <!-- Tombol Aksi Player -->
+              <div class="battle-actions">
+                <button id="btn-attack" class="btn btn-danger">⚔️ Attack</button>
+                <button id="btn-defend" class="btn btn-secondary">🛡️ Defend</button>
+                <button id="btn-potion" class="btn btn-success">🧪 Potion (+25 HP)</button>
+              </div>
+
+              <!-- Parameter Kontrol AI -->
+              <div class="ai-controls">
+                <label>Algoritma:
+                  <select id="select-algo">
+                    <option value="alphabeta">Alpha-Beta Pruning</option>
+                    <option value="minimax">Standard Minimax</option>
+                    <option value="expectimax">Expectimax</option>
+                  </select>
+                </label>
+                <label>Evaluasi:
+                  <select id="select-eval">
+                    <option value="balanced">Balanced</option>
+                    <option value="aggressive">Aggressive</option>
+                    <option value="defensive">Defensive</option>
+                  </select>
+                </label>
+                <label>Depth:
+                  <select id="select-depth">
+                    <option value="2">2</option>
+                    <option value="4" selected>4</option>
+                    <option value="6">6</option>
+                  </select>
+                </label>
+                <label>Ordering:
+                  <select id="select-order">
+                    <option value="optimal">Optimal (Best-first)</option>
+                    <option value="default">Default</option>
+                    <option value="reverse">Reverse (Worst-first)</option>
+                  </select>
+                </label>
+              </div>
+
+              <!-- Panel Debug Overlay Sesuai Kriteria Tubes -->
+              <div id="debug-overlay" class="debug-panel">
+                <em>Menunggu inisialisasi pertarungan...</em>
+              </div>
+
+              <div id="battle-log" class="battle-log"></div>
+            </div>
+          </div>
+
+    <script src="src/pathfinding.js"></script>
+    <script src="src/maps.js"></script>
+    <script src="src/experiments.js"></script>
+    <script src="src/adversarial.js"></script>
+    <script src="src/app.js"></script>
+</body>
+</html>
